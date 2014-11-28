@@ -4,29 +4,35 @@ body {
   font-size: 4em;
   line-height: 4em;
   min-height: 740px;
-  background-color: #444444;
+  background-color: #181818;
   background-image: url("back.png");
   margin: 0;
   border: 0;
   padding: 0;
-  color: #eeeeee;
-  box-shadow: 0 0 50px black inset;
+  color: #eeeaea;
+  box-shadow: 0 0 50px #111111 inset;
   -webkit-font-smoothing: antialiased; }
+
+article {
+  border: solid 20px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 30px #222222;
+  border-radius: 20px;
+  background: #181818; }
 
 /*STEP STYLES */
 a {
   color: #cccccc; }
   a:hover {
-    color: #e47e30; }
+    color: #cb4b16; }
 
 b {
-  color: #cccccc; }
+  color: #cb4b16; }
 
 h1 {
   margin-top: 0; }
 
 .hi {
-  color: #e47e30; }
+  color: #cb4b16; }
 
 .hi2 {
   color: #cccccc; }
@@ -140,7 +146,7 @@ ul li {
     font-weight: bold; }
   #title h2 {
     font-size: 1em;
-    color: #e47e30; }
+    color: #cb4b16; }
   #title author {
     color: #cccccc;
     font-style: italic; }
