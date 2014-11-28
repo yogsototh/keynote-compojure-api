@@ -62,11 +62,29 @@
  ...}</code></pre>
     </article>
     <article class="step basic">
-        <pre class="clojure"><code>(def app
-  (GET* "/pizza"
-    (ok "got your pizza")))</code></pre>
+        <h1>Ring: <b>Request</b></h1>
+        <pre class="clojure"><code>{:server-port 8081
+ :uri "/pizza"
+ :query-string "id=pepperoni"
+ :request-method :get
+ :content-type "application/json"
+ :headers {"Accept" "application/json"}
+ ...}</code></pre>
     </article>
-
+    <article class="step basic">
+        <h1>Ring: <b>Response</b></h1>
+        <pre class="clojure"><code>{:status 200
+ :headers {"Content-Type" "application/json"}
+ :body "{\"key\":\"value\"}"}</code></pre>
+    </article>
+    <article class="step basic">
+        <h1>Ring: <b>simplicity</b></h1>
+        <i>Programming a Web service is writing
+        a function from a Request map to a Response map</i>
+    </article>
+    <article class="step basic big">
+        <h1>Demo &amp; Questions</h1>
+    </article>
 </div>
 
 <div class="hint">
@@ -75,24 +93,24 @@
 
 <script type="text/javascript">
 $(function() {
-  var roffset=4000;
+  var roffset=2000;
   for (var i=0; i<100; i++) {
     $.jmpress("template","basic-"+i, {
               x: roffset*i,
               scale: 1,
               })
     $.jmpress("template","big-"+i, {
+              scale: 0.3,
               x: roffset*i,
-              scale: 2,
               rotate: {x: 90}
               })
   }
   $(".step").attr("data-template",function(i){
-                  if ($(this).hasClass("big")) {
-                    return "big-"+i;
-                  } else {
-                    return "basic-"+i;
-                  }
+                   if ($(this).hasClass("big")) {
+                     return "big-"+i;
+                   } else {
+                     return "basic-"+i;
+                   }
                   })
   $('#simple').jmpress({viewPort: {height: 1600, width: 2000, minScale: 0.01, maxScale: 100}});
 });
