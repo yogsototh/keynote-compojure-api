@@ -93,7 +93,7 @@
 
 <script type="text/javascript">
 $(function() {
-  var roffset=2000;
+  var roffset=2500;
   for (var i=0; i<100; i++) {
     $.jmpress("template","basic-"+i, {
               x: roffset*i,
@@ -112,7 +112,8 @@ $(function() {
                      return "basic-"+i;
                    }
                   })
-  $('#simple').jmpress({viewPort: {height: 1600, width: 2000, minScale: 0.01, maxScale: 100}});
+  var bordersize=100;
+  $('#simple').jmpress({viewPort: {height: 1080 + bordersize, width: 1960 + bordersize, minScale: 0.01, maxScale: 100}});
 });
 </script>
 
