@@ -82,6 +82,32 @@
         <i>Programming a Web service is writing
         a function from a Request map to a Response map</i>
     </article>
+    <article class="step basic big" style="font-size: 1.6em; border: solid">
+        <h1>Plan</h1>
+        <ul><li>Ring
+        </li><li><b>Compojure</b>
+        </li><li>Schema
+        </li><li>Swagger
+        </li></ul>
+    </article>
+    <article class="step basic">
+        <h1>Ring basic job of handler: <b>routing</b></h1>
+        <pre><code>(cond
+  (= (:uri request) "/") handler-one
+  (= (:uri request) "/pizza") handler-two)
+
+? GET /pizza/cheese?olive=8 ⇒
+        (handler-get-pizza pepperoni {:olive 8})
+
+? POST /pizza {:name "pepperoni" :ingredients ["olive"]} ⇒
+        (handler-post-pizza pepperoni )</code></pre>
+    </article>
+    <article class="step basic">
+        <h1>Compojure: <b>routing</b></h1>
+        <pre><code>(GET "/pizza/:id" (handle id))
+        </code></pre>
+    </article>
+
     <article class="step basic big">
         <h1>Demo &amp; Questions</h1>
     </article>
