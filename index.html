@@ -21,13 +21,13 @@
 <div id="simple">
     <article id="title" class="step basic">
         <h1><code>compojure-api</code></h1>
-        <h2>Swagger & Schema FTW!</h2>
-        <author>
+        <h2>Swagger &amp; Schema FTW!</h2>
+        <div id="author">
         Guillaume Buisson <a href="http://twitter.com/gbuisson">@gbuisson</a> &amp;
         <br/> Yann Esposito <a href="http://twitter.com/yogsototh">@yogsototh</a>
             <br/>
             <a href="http://vigiglobe.com" target="_blank">Vigiglobe</a>
-        </author>
+        </div>
     </article>
     <article class="step basic">
         <h1><b>Vigiglobe</b></h1>
@@ -37,6 +37,14 @@
         </li><li>Use <code>compojure-api</code>
         </li></ul>
     </article>
+    <article class="step basic">
+        <h1><code>compojure-api</code></h1>
+        <ul><li><b>JVM</b> ⇒ Fast, Reliable, Easy to deploy
+        </li><li><b>Clojure</b> ⇒ Very clean, Fast devs, Joy
+        </li><li><b>Schema</b> ⇒ Specification (pseudo-typing)
+        </li><li><b>Swagger UI</b> ⇒ Live UI to play with your API
+        </li></ul>
+    </article>
     <!-- =================================================================== -->
     <article class="step basic big" style="font-size: 1.6em; border: solid">
         <h1>Plan</h1>
@@ -44,14 +52,6 @@
         </li><li>Compojure
         </li><li>Schema
         </li><li>Swagger
-        </li></ul>
-    </article>
-    <article class="step basic">
-        <h1><code>compojure-api</code></h1>
-        <ul><li><b>JVM</b> ⇒ Fast, Reliable, Easy to deploy
-        </li><li><b>Clojure</b> ⇒ Very clean, Fast devs, Joy
-        </li><li><b>Schema</b> ⇒ Specification (pseudo-typing)
-        </li><li><b>Swagger UI</b> ⇒ Live UI to play with your API
         </li></ul>
     </article>
     <article class="step basic">
@@ -178,7 +178,7 @@
     <article class="step basic">
         <h1>Swagger: format spec</h1>
         <pre><code>{"swaggerVersion":"1.2",
- "info":{"title":"Guillaume & Yann's quality pizzas"},
+ "info":{"title":"Guillaume &amp; Yann's quality pizzas"},
  "apis":[{"path":"/Order","description":"Order operations"}],
  "apiVersion":"0.0.1"}</code></pre>
     </article>
@@ -222,7 +222,7 @@ $(function() {
   for (var i=0; i<100; i++) {
     $.jmpress("template","basic-"+i, {
               x: roffset*i,
-              scale: 1,
+              scale: 1
               })
     $.jmpress("template","big-"+i, {
               scale: 0.3,
