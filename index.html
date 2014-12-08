@@ -23,11 +23,21 @@
         <h1><code>compojure-api</code></h1>
         <h2>Swagger & Schema FTW!</h2>
         <author>
-            Guillaume Buisson &amp; Yann Esposito
+        Guillaume Buisson <a href="http://twitter.com/gbuisson">@gbuisson</a> &amp;
+        <br/> Yann Esposito <a href="http://twitter.com/yogsototh">@yogsototh</a>
             <br/>
             <a href="http://vigiglobe.com" target="_blank">Vigiglobe</a>
         </author>
     </article>
+    <article class="step basic">
+        <h1><b>Vigiglobe</b></h1>
+        <ul><li>Real Time Social Media Analytics
+        </li><li>Mostly Clojure/Clojurescript
+        </li><li>A bit of Haskell
+        </li><li>Use <code>compojure-api</code>
+        </li></ul>
+    </article>
+    <!-- =================================================================== -->
     <article class="step basic big" style="font-size: 1.6em; border: solid">
         <h1>Plan</h1>
         <ul><li><b>Ring</b>
@@ -54,19 +64,9 @@
     <article class="step basic">
         <h1>Ring: <b>Request</b></h1>
         <pre class="clojure"><code>{:server-port 8081
- :uri "/pizza"
- :query-string "id=pepperoni"
- :request-method :get
- :content-type "application/json"
- :headers {"Accept" "application/json"}
- ...}</code></pre>
-    </article>
-    <article class="step basic">
-        <h1>Ring: <b>Request</b></h1>
-        <pre class="clojure"><code>{:server-port 8081
- :uri "/pizza"
- :query-string "id=pepperoni"
- :request-method :get
+ :uri "/pizza-order"
+ :query-string "recipe=vegan"
+ :request-method :post
  :content-type "application/json"
  :headers {"Accept" "application/json"}
  ...}</code></pre>
@@ -75,13 +75,14 @@
         <h1>Ring: <b>Response</b></h1>
         <pre class="clojure"><code>{:status 200
  :headers {"Content-Type" "application/json"}
- :body "{\"key\":\"value\"}"}</code></pre>
+ :body "{\"msg\":\"pizza ordered\"}"}</code></pre>
     </article>
     <article class="step basic">
         <h1>Ring: <b>simplicity</b></h1>
         <i>Programming a Web service is writing
         a function from a Request map to a Response map</i>
     </article>
+    <!-- =================================================================== -->
     <article class="step basic big" style="font-size: 1.6em; border: solid">
         <h1>Plan</h1>
         <ul><li>Ring
@@ -92,20 +93,107 @@
     </article>
     <article class="step basic">
         <h1>Ring basic job of handler: <b>routing</b></h1>
-        <pre><code>(cond
-  (= (:uri request) "/") handler-one
-  (= (:uri request) "/pizza") handler-two)
-
-? GET /pizza/cheese?olive=8 ⇒
-        (handler-get-pizza pepperoni {:olive 8})
-
-? POST /pizza {:name "pepperoni" :ingredients ["olive"]} ⇒
-        (handler-post-pizza pepperoni )</code></pre>
+        <pre><code>(if (and (= (:request-method request) :post)
+    (= (:uri request) "/order-pizza"))
+      (handle-order-pizza (:pizza (:params request)))</code></pre>
+        <pre><code>curl -XPOST -d "pizza=vegan" '.../order-pizza'</code></pre>
     </article>
     <article class="step basic">
         <h1>Compojure: <b>routing</b></h1>
-        <pre><code>(GET "/pizza/:id" (handle id))
-        </code></pre>
+        <pre><code>(POST "/order-pizza/:pizza" [pizza]
+  (handle-order-pizza pizza)</code></pre>
+        <pre><code>curl -XPOST '.../order-pizza/vegan'</code></pre>
+    </article>
+    <!-- =================================================================== -->
+    <article class="step basic big" style="font-size: 1.6em; border: solid">
+        <h1>Plan</h1>
+        <ul><li>Ring
+        </li><li>Compojure
+        </li><li><b>Schema</b>
+        </li><li>Swagger
+        </li></ul>
+    </article>
+    <article class="step basic">
+        <h1>Schema: Pizza</h1>
+        <pre><code>(defschema Supplement
+  {:type (enum :cheese :beef)})
+
+  (defschema Pizza
+    {:recipe (enum :hawaian :italian :vegan)
+     :size   (enum :small :medium :large)
+     (optional-key :supplements) [Supplement]})</code></pre>
+    </article>
+    <article class="step basic">
+        <h1>Schema: Pizza examples</h1>
+        <pre><code>{:recipe :vegan, :size :big}    ⇒ ✗ Pizza
+{:pizza  :vegan, :size :medium} ⇒ ✗ Pizza
+{:pizza  :vegan}                ⇒ ✗ Pizza
+{:recipe :vegan, :size :medium} ⇒ ✓ Pizza
+{:recipe :vegan, :size :medium,
+ :supplements [:cheese :beef]}  ⇒ ✓ Pizza</code></pre>
+    </article>
+    <article class="step basic">
+        <h1>Schema: Order</h1>
+        <pre><code>(defschema Dessert {:type  (enum :yoghourt :cake :fruit)})
+(defschema Drink   {:brand (enum :coca-cola :fanta :sprite)})
+(defschema Order
+  {:type (enum :in-place :take-away)
+   :pizzas [Pizza]
+   :drinks [Drink]
+   :desserts [Desserts]})</code></pre>
+    </article>
+    <article class="step basic">
+        <h1>Schema: Order examples</h1>
+        <pre><code>{:type :take-away
+ :pizzas [{:recipe :vegan :size :medium}]
+ :drinks [:sprite]
+ :desserts [:fruit]} ⇒ ✓ Order</code></pre>
+    </article>
+    <article class="step basic">
+        <h1>compojure-api routes</h1>
+        <pre><code>(POST* "/" []
+  :return Order
+  :body [order Order]
+  :summary "Place an order"
+  (place order))</code></pre>
+  <p>Ensure request body and returned value are <code>Order</code>s</p>
+    </article>
+    <article class="step basic">
+        <h1>compojure-api &amp; Schema</h1>
+        <ul><li> Assertion
+        </li><li> Coercion (String → Keyword or Int)
+        </li><li> Multiple formats (JSON, edn, transmit, etc...)
+        </li></ul>
+    </article>
+
+    <!-- =================================================================== -->
+    <article class="step basic big" style="font-size: 1.6em; border: solid">
+        <h1>Plan</h1>
+        <ul><li>Ring
+        </li><li>Compojure
+        </li><li>Schema
+        </li><li><b>Swagger</b>
+        </li></ul>
+    </article>
+    <article class="step basic">
+        <h1>Swagger: format spec</h1>
+        <pre><code>TODO: curl /docs</code></pre>
+    </article>
+    <article class="step basic">
+        <h1>Swagger: format spec by route</h1>
+        <pre><code>TODO: curl /docs/order</code></pre>
+    </article>
+    <article class="step basic">
+        <h1>Swagger UI</h1>
+        <p>TODO: screenshot</p>
+        <img alt="swagger-ui screenshot" src="swagger-ui-screenshot.png"/>
+    </article>
+    <article class="step basic">
+        <h1>Swagger UI</h1>
+        <ul><li> Up to date specification
+        </li><li> Less documentation needs
+        </li><li> Automatisation → less errors, more time, more joy
+        </li></ul>
     </article>
 
     <article class="step basic big">

@@ -142,13 +142,14 @@ ul li {
 #title {
   text-align: center; }
   #title h1 {
-    font-size: 3em;
+    font-size: 2.5em;
     font-weight: bold; }
   #title h2 {
     font-size: 1em;
     color: #cb4b16; }
   #title author {
     color: #cccccc;
+    font-size: 0.7em;
     font-style: italic; }
 
 .background {
